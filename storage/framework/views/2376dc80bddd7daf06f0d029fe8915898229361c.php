@@ -3,7 +3,7 @@
     <?php if(count($appls) > 1): ?>
         <?php $__currentLoopData = $appls; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appl): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="well">
-                <h3><?php echo e($appl->comments); ?></h3>
+                <h3><?php echo $appl->comments; ?></h3>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <?php else: ?>

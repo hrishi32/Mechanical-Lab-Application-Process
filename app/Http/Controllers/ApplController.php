@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Appl;
+// use App\Post;
 
 class ApplController extends Controller
 {
@@ -14,7 +15,8 @@ class ApplController extends Controller
      */
     public function index()
     {
-        return view("appl.index")->with('appls',Appl::all() );
+        $appls = Appl::orderBy('created_at', 'desc')->paginate(10);
+        return view("appl.index")->with('appls',$appls );
     }
 
     /**
@@ -35,7 +37,22 @@ class ApplController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, 
+        [
+            'user' => 'required',
+            'comments' => 'required',
+            'material_provider' => 'required',
+            'cost' => 'required'
+        ]);
+        
+        $post = new Appl;
+        $post->sender = $request->input('user');
+        $post->material_provider = $request->input('material_provider');
+        $post->cost = $request->input('cost');
+        $post->comments = $request->input('comments');
+        $post->imgsrc = "none.png";
+        $post->save();
+        return redirect('/appl')->with('success', 'post created');
     }
 
     /**

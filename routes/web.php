@@ -20,3 +20,5 @@ Route::get('all', function () {
 });
 
 Route::resource('appl', 'ApplController');
+
+Route::resource('applstore', 'ApplController');

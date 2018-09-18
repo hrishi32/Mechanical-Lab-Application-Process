@@ -4,7 +4,7 @@
     @if(count($appls) > 1)
         @foreach($appls as $appl)
             <div class="well">
-                <h3>{{$appl->comments}}</h3>
+                <h3>{!!$appl->comments!!}</h3>
             </div>
         @endforeach
     @else
