@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Appl;
+use Auth;
 // use App\Post;
 
 class ApplController extends Controller
@@ -13,10 +14,24 @@ class ApplController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $appls = Appl::orderBy('created_at', 'desc')->paginate(10);
-        return view("appl.index")->with('appls',$appls );
+        if(Auth::user()->level <3)
+        {    
+            $appls = Appl::orderBy('created_at', 'desc')->paginate(10);
+            return view("appl.index")->with('appls',$appls );
+        }
+        elseif(Auth::user()->level == 3)
+        {
+            $appls = Appl::where('sender', Auth::user()->roll_no)->orderBy('created_at', 'desc')->paginate(10);
+            return view("appl.index")->with('appls',$appls );
+        }
     }
 
     /**
@@ -39,18 +54,18 @@ class ApplController extends Controller
     {
         $this->validate($request, 
         [
-            'user' => 'required',
             'comments' => 'required',
             'material_provider' => 'required',
             'cost' => 'required'
         ]);
         
         $post = new Appl;
-        $post->sender = $request->input('user');
+        $post->sender = Auth::user()->roll_no;
         $post->material_provider = $request->input('material_provider');
         $post->cost = $request->input('cost');
         $post->comments = $request->input('comments');
         $post->imgsrc = "none.png";
+        $post->status = 0;
         $post->save();
         return redirect('/appl')->with('success', 'post created');
     }
@@ -74,7 +89,8 @@ class ApplController extends Controller
      */
     public function edit($id)
     {
-        //
+        $appl = Appl::find($id);
+        return view('appl.review')->with('appl', $appl);
     }
 
     /**
@@ -86,7 +102,25 @@ class ApplController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, 
+        [
+            'comments' => 'required',
+            'material_provider' => 'required',
+            'cost' => 'required'
+        ]);
+
+        if(Auth::user()->level < 3 || (Auth::user()->roll_no == $appl->sender && $appl->status == 0))
+        {            
+            $post = Appl::find($id);
+            $post->sender = Auth::user()->roll_no;
+            $post->material_provider = $request->input('material_provider');
+            $post->cost = $request->input('cost');
+            $post->comments = $request->input('comments');
+            $post->imgsrc = "none.png";
+            $post->status = 0;
+            $post->save();
+            return redirect('/appl')->with('success', 'post updated');
+        }
     }
 
     /**
