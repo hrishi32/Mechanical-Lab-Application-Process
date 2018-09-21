@@ -7,7 +7,9 @@
                     <div class="card-header" ><?php echo e(__('Add Application')); ?> </div>
 
                     <div class="card-body" style="width : 100%">
-                        <form method="POST" action="<?php echo e(url('applupdate')); ?>" aria-label="<?php echo e(__('Add Application')); ?>">
+                        
+                            <?php echo Form::open(['action'=> ['ApplController@update', $appl->id], 'method' => 'POST']); ?>
+
                             <?php echo csrf_field(); ?>
                             <div class="form-group row">
                                 <label for="material_provider" class="col-sm-4 col-form-label text-md-right"><?php echo e(__('Material Provider')); ?></label>
@@ -29,7 +31,7 @@
                                     <label for="img" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Image')); ?></label>
         
                                     <div class="col-md-6">
-                                        <input id="img" type="file"  name="img" required>
+                                        <input id="img" type="file"  name="img" >
                                     </div>
                             </div>
 
@@ -40,6 +42,7 @@
                                     <textarea class="ckeditor" name="comments" id="description" ><?php echo e($appl->comments); ?></textarea>
                                 </div>
                             </div>
+                            <?php echo e(Form::hidden('_method', 'PUT')); ?>
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">

@@ -67,7 +67,7 @@ class ApplController extends Controller
         $post->imgsrc = "none.png";
         $post->status = 0;
         $post->save();
-        return redirect('/appl')->with('success', 'post created');
+        return redirect('/appl')->with('success', 'Application Created');
     }
 
     /**
@@ -119,7 +119,7 @@ class ApplController extends Controller
             $post->imgsrc = "none.png";
             $post->status = 0;
             $post->save();
-            return redirect('/appl')->with('success', 'post updated');
+            return redirect('/appl')->with('success', 'Application Updated');
         }
     }
 
@@ -131,6 +131,32 @@ class ApplController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Appl::find($id);
+        $post->delete();
+        return redirect('/appl')->with('success', 'Application Removed');
+    }
+
+    public function approve($id)
+    {
+        if(Auth::user()->level == 1)
+        {
+            $appl = Appl::find($id);
+            $appl->status = 2;
+            $appl->save();
+            return redirect('/appl')->with('success', 'Application Approved');
+        }
+        return redirect('/appl')->with('error', 'Access Denied');
+    }
+
+    public function decline($id)
+    {
+        if(Auth::user()->level == 1)
+        {
+            $appl = Appl::find($id);
+            $appl->status = -1;
+            $appl->save();
+            return redirect('/appl')->with('success', 'Application Declined');
+        }
+        return redirect('/appl')->with('error', 'Access Denied');
     }
 }

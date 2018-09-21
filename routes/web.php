@@ -21,9 +21,23 @@ Route::get('all', function () {
 
 Route::resource('appl', 'ApplController');
 
-Route::resource('applstore', 'ApplController');
+Route::post('applstore', 'ApplController@store');
 
-Route::resource('applupdate', 'ApplController');
+Route::resource('applapprove', 'ApplController@approve');
+
+// Route::get('applapprove', 'ApplController@approve');
+
+// Route::get('appldecline', 'ApplController@decline');
+
+// Route::post('applapprove', 'ApplController@approve');
+
+// Route::post('appldecline', 'ApplController@decline');
+
+// Route::put('applapprove', 'ApplController@approve');
+
+// Route::put('appldecline', 'ApplController@decline');
+
+
 
 Auth::routes();
 

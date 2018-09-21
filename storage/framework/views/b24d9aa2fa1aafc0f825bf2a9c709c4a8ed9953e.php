@@ -28,7 +28,7 @@
                                 <label for="img" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Image')); ?></label>
     
                                 <div class="col-md-6">
-                                    <input id="img" type="file"  name="img" required>
+                                    <input id="img" type="file"  name="img" >
                                 </div>
                         </div>
 

@@ -8,7 +8,8 @@
                     <div class="card-header" >{{ __('Add Application') }} </div>
 
                     <div class="card-body" style="width : 100%">
-                        <form method="POST" action="{{ url('applupdate') }}" aria-label="{{ __('Add Application') }}">
+                        {{-- <form method="POST" action="{{ url('applupdate') }}" aria-label="{{ __('Add Application') }}"> --}}
+                            {!! Form::open(['action'=> ['ApplController@update', $appl->id], 'method' => 'POST']) !!}
                             @csrf
                             <div class="form-group row">
                                 <label for="material_provider" class="col-sm-4 col-form-label text-md-right">{{ __('Material Provider') }}</label>
@@ -30,7 +31,7 @@
                                     <label for="img" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
         
                                     <div class="col-md-6">
-                                        <input id="img" type="file"  name="img" required>
+                                        <input id="img" type="file"  name="img" >
                                     </div>
                             </div>
 
@@ -41,7 +42,7 @@
                                     <textarea class="ckeditor" name="comments" id="description" >{{$appl->comments}}</textarea>
                                 </div>
                             </div>
-
+                            {{Form::hidden('_method', 'PUT')}}
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

@@ -10,7 +10,10 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
+        <!-- Scripts -->
+        <script src="<?php echo e(asset('js/app.js')); ?>" defer></script>
         <!-- Styles -->
+        <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -69,7 +72,26 @@
             <?php if(Route::has('login')): ?>
                 <div class="top-right links">
                     <?php if(auth()->guard()->check()): ?>
-                        <a href="<?php echo e(url('/home')); ?>">Home</a>
+                    <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                    <?php echo e(__('Logout')); ?>
+
+                                </a>
+
+                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                    <?php echo csrf_field(); ?>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
                     <?php else: ?>
                         <a href="<?php echo e(route('login')); ?>">Login</a>
                         <a href="<?php echo e(route('register')); ?>">Register</a>
@@ -86,9 +108,7 @@
                 <div class="links">
                     <a href="/appl">View Applications</a>
                     <a href="/appl/create">Create Application</a>
-                    <a href="https://laravel-news.com">Check Status</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    
                 </div>
             </div>
         </div>
