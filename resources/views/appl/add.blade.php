@@ -19,20 +19,20 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="cost" class="col-md-4 col-form-label text-md-right">{{ __('Cost') }}</label>
+                            <label for="cost" class="col-md-4 col-form-label text-md-right">{{ __('Cost(₹)') }}</label>
 
                             <div class="col-md-6">
                                 <input id="cost" type="number"  name="cost" required>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                                 <label for="img" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
     
                                 <div class="col-md-6">
                                     <input id="img" type="file"  name="img" >
                                 </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row">
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>

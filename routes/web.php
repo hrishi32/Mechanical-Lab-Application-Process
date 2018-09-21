@@ -23,15 +23,27 @@ Route::resource('appl', 'ApplController');
 
 Route::post('applstore', 'ApplController@store');
 
-Route::resource('applapprove', 'ApplController@approve');
+// Route::post('applapprove', array('uses' => 'ApplController@approve', 'id'));
+
+// Route::get('applapprove', array('uses' => 'ApplController@approve', 'id'));
+
+// Route::put('applapprove', array('uses' => 'ApplController@approve', 'id'));
+
+// Route::get('applapprove/{id}', ['as' => 'Appl.approve', 'uses' => 'ApplController@approve']);
+
+// Route::put('applapprove', array('uses' => 'ApplController@approve'));
+
+Route::post('appldecline', array('uses' => 'ApplController@decline'));
+
+// Route::resource('applapprove', 'ApplController@approve');
 
 // Route::get('applapprove', 'ApplController@approve');
 
 // Route::get('appldecline', 'ApplController@decline');
 
-// Route::post('applapprove', 'ApplController@approve');
+Route::post('applapprove', 'ApplController@approve');
 
-// Route::post('appldecline', 'ApplController@decline');
+Route::post('appldecline', 'ApplController@decline');
 
 // Route::put('applapprove', 'ApplController@approve');
 

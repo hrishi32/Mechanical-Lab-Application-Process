@@ -14,11 +14,11 @@
                     <small>Applicant: {{$appl->sender}} | </small>
                     <small>Material Provider: {{$appl->material_provider}} | </small>
                     <small>Estimated Cost: ₹{{$appl->cost}}</small>
-                <h3>{!!$appl->comments!!}</h3>
+                <div>{!!$appl->comments!!}</div>
                 @if(($appl->status == 0 && $appl->sender == Auth::user()->roll_no))
                     <hr>
-                    <a href="/appl/{{$appl->id}}/edit" class="btn btn-default">Edit Application</a>
-                    {!! Form::open(['action' => ['ApplController@destroy', $appl->id], 'method' =>'POST', 'class' => 'pull-right']) !!}
+                    <a href="/appl/{{$appl->id}}/edit"  style="display: inline-block"><button class="btn btn-default">Edit Application</button></a>
+                    {!! Form::open(['action' => ['ApplController@destroy', $appl->id], 'method' =>'POST', 'style' => 'display:inline-block']) !!}
                     {{Form::hidden('_method', 'DELETE')}}
                     {{Form::submit('Delete', ['class'=>'btn btn-danger'])}}
                     {!! Form::close() !!}
@@ -26,16 +26,27 @@
                     <hr>
                     <a href="/appl/{{$appl->id}}/edit" class="btn btn-default">Suggest Changes</a>
                     <a href="" class="btn btn-default">Forward</a>
-                @elseif(Auth::user()->level == 1 && $appl->status == 1)
-                    {!! Form::open(['action' => ['ApplController@approve', $appl->id], 'method' =>'POST', 'class' => 'pull-right']) !!}
-                    {{Form::hidden('_method', 'PUT')}}
+                 @elseif(Auth::user()->level == 1 && $appl->status == 1)
+                    {{-- {!! Form::open(['action'=> ['ApplController@approve', $appl->id], 'method' => 'POST']) !!}
+                    {{Form::hidden('_method', 'PUT')}} 
                     {{Form::submit('Approve', ['class'=>'btn btn-primary'])}}
-                    {!! Form::close() !!}
+                    {!! Form::close() !!}  --}}
 
-                    {!! Form::open(['action' => ['ApplController@decline', $appl->id], 'method' =>'POST', 'class' => 'pull-right']) !!}
+                    <form method="POST", action="{{url('applapprove')}}" style="display: inline-block">
+                        @csrf
+                        <input type="hidden", value="{{$appl->id}}" name="id">
+                        <input type="submit" class="btn btn-primary" value="Approve">
+                    </form>
+
+                    {{-- {!! Form::open(['action' => ['ApplController@decline', $appl->id], 'method' =>'POST', 'class' => 'pull-right']) !!}
                     {{Form::hidden('_method', 'PUT')}}
                     {{Form::submit('Decline', ['class'=>'btn btn-danger'])}}
-                    {!! Form::close() !!}
+                    {!! Form::close() !!} --}}
+                    <form method="POST", action="{{url('appldecline')}}" class="pull-right" style="display: inline-block">
+                        @csrf
+                        <input type="hidden", value="{{$appl->id}}" name="id">
+                        <input type="submit" class="btn btn-danger" value="Decline">
+                    </form>
                 @elseif($appl->status == 1)
                     <p>Status: Application Forarded</p>
 

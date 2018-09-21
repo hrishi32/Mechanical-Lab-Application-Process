@@ -135,12 +135,18 @@ class ApplController extends Controller
         $post->delete();
         return redirect('/appl')->with('success', 'Application Removed');
     }
-
-    public function approve($id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Request $request)
     {
         if(Auth::user()->level == 1)
         {
-            $appl = Appl::find($id);
+            $appl = Appl::find($request->input('id'));
             $appl->status = 2;
             $appl->save();
             return redirect('/appl')->with('success', 'Application Approved');
@@ -148,11 +154,11 @@ class ApplController extends Controller
         return redirect('/appl')->with('error', 'Access Denied');
     }
 
-    public function decline($id)
+    public function decline(Request $request)
     {
         if(Auth::user()->level == 1)
         {
-            $appl = Appl::find($id);
+            $appl = Appl::find($request->input('id'));
             $appl->status = -1;
             $appl->save();
             return redirect('/appl')->with('success', 'Application Declined');

@@ -12,11 +12,11 @@
                     <small>Applicant: <?php echo e($appl->sender); ?> | </small>
                     <small>Material Provider: <?php echo e($appl->material_provider); ?> | </small>
                     <small>Estimated Cost: ₹<?php echo e($appl->cost); ?></small>
-                <h3><?php echo $appl->comments; ?></h3>
+                <div><?php echo $appl->comments; ?></div>
                 <?php if(($appl->status == 0 && $appl->sender == Auth::user()->roll_no)): ?>
                     <hr>
-                    <a href="/appl/<?php echo e($appl->id); ?>/edit" class="btn btn-default">Edit Application</a>
-                    <?php echo Form::open(['action' => ['ApplController@destroy', $appl->id], 'method' =>'POST', 'class' => 'pull-right']); ?>
+                    <a href="/appl/<?php echo e($appl->id); ?>/edit"  style="display: inline-block"><button class="btn btn-default">Edit Application</button></a>
+                    <?php echo Form::open(['action' => ['ApplController@destroy', $appl->id], 'method' =>'POST', 'style' => 'display:inline-block']); ?>
 
                     <?php echo e(Form::hidden('_method', 'DELETE')); ?>
 
@@ -28,24 +28,21 @@
                     <hr>
                     <a href="/appl/<?php echo e($appl->id); ?>/edit" class="btn btn-default">Suggest Changes</a>
                     <a href="" class="btn btn-default">Forward</a>
-                <?php elseif(Auth::user()->level == 1 && $appl->status == 1): ?>
-                    <?php echo Form::open(['action' => ['ApplController@approve', $appl->id], 'method' =>'POST', 'class' => 'pull-right']); ?>
+                 <?php elseif(Auth::user()->level == 1 && $appl->status == 1): ?>
+                    
 
-                    <?php echo e(Form::hidden('_method', 'PUT')); ?>
+                    <form method="POST", action="<?php echo e(url('applapprove')); ?>" style="display: inline-block">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden", value="<?php echo e($appl->id); ?>" name="id">
+                        <input type="submit" class="btn btn-primary" value="Approve">
+                    </form>
 
-                    <?php echo e(Form::submit('Approve', ['class'=>'btn btn-primary'])); ?>
-
-                    <?php echo Form::close(); ?>
-
-
-                    <?php echo Form::open(['action' => ['ApplController@decline', $appl->id], 'method' =>'POST', 'class' => 'pull-right']); ?>
-
-                    <?php echo e(Form::hidden('_method', 'PUT')); ?>
-
-                    <?php echo e(Form::submit('Decline', ['class'=>'btn btn-danger'])); ?>
-
-                    <?php echo Form::close(); ?>
-
+                    
+                    <form method="POST", action="<?php echo e(url('appldecline')); ?>" class="pull-right" style="display: inline-block">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden", value="<?php echo e($appl->id); ?>" name="id">
+                        <input type="submit" class="btn btn-danger" value="Decline">
+                    </form>
                 <?php elseif($appl->status == 1): ?>
                     <p>Status: Application Forarded</p>
 
