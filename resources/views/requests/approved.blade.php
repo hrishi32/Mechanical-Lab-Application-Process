@@ -8,9 +8,9 @@
 <link rel="stylesheet" href=" {{asset('css/app.css')}} ">
 <div style="margin:2%">
     <h1>Applications</h1>
-    <a href = "#"><button  style="border:none; background: #81ba80 ; color: white"><u>All</u></button></a>
+    <a href = "/appl"><button style="border:none" >All</button></a>
     <a href = "/requests/pending"><button  style="border:none">Pending</button></a>
-    <a href = "/requests/approved"><button style="border:none">Approved</button></a>
+    <a href = "#"><button style="border:none; background: #81ba80 ; color: white"><u>Approved</u></button></a>
     <br><br>
     @if(count($appls) > 1)
         @foreach($appls as $appl)

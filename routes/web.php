@@ -19,6 +19,10 @@ Route::get('all', function () {
     return view('all');
 });
 
+Route::get('/requests/pending', 'RequestController@pending');
+
+Route::get('/requests/approved', 'RequestController@approved');
+
 Route::resource('appl', 'ApplController');
 
 Route::post('applstore', 'ApplController@store');

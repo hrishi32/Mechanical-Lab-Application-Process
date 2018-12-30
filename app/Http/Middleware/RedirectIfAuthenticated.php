@@ -20,6 +20,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if(Auth::attempt(['email' => $request['username']."@students.iitmandi.ac.in", 'password' => ($request['password'])]) ){
+            // echo "Auth Attempt Successful.";
+            // if ( Auth::user()->isAdmin())
+            //     {
+            //         return Redirect::intended();
+            //     }
+            return Redirect::intended();
+        }
         $username=$request['username'];
         $password=$request['password'];
         $filter="(uid=$username)";

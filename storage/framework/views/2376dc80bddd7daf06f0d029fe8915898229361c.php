@@ -6,6 +6,10 @@
 <link rel="stylesheet" href=" <?php echo e(asset('css/app.css')); ?> ">
 <div style="margin:2%">
     <h1>Applications</h1>
+    <a href = "#"><button  style="border:none; background: #81ba80 ; color: white"><u>All</u></button></a>
+    <a href = "/requests/pending"><button  style="border:none">Pending</button></a>
+    <a href = "/requests/approved"><button style="border:none">Approved</button></a>
+    <br><br>
     <?php if(count($appls) > 1): ?>
         <?php $__currentLoopData = $appls; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appl): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class= "well">
@@ -24,11 +28,13 @@
 
                     <?php echo Form::close(); ?>
 
-                <?php elseif(Auth::user()->level < 3 && $appl->status == 0 ): ?>
+                <?php endif; ?>
+                <?php if(Auth::user()->level == 2 && $appl->status == 0 ): ?>
                     <hr>
                     <a href="/appl/<?php echo e($appl->id); ?>/edit" class="btn btn-default">Suggest Changes</a>
                     <a href="" class="btn btn-default">Forward</a>
-                 <?php elseif(Auth::user()->level == 1 && $appl->status == 1): ?>
+                <?php endif; ?>
+                 <?php if(Auth::user()->level == 1 && ($appl->status == 1 ||$appl->status == 0 )): ?>
                     
 
                     <form method="POST", action="<?php echo e(url('applapprove')); ?>" style="display: inline-block">
